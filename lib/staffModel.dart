@@ -32,7 +32,7 @@ class Data {
   int nana;
   int danny;
   int ambrose;
-
+  int johnny;
   Data(
       {this.bismark,
       this.mike,
@@ -42,7 +42,8 @@ class Data {
       this.kelvin,
       this.nana,
       this.danny,
-      this.ambrose});
+      this.ambrose,
+      this.johnny});
 
   Data.fromJson(Map<String, dynamic> json) {
     bismark = json['bismark'];
@@ -54,6 +55,7 @@ class Data {
     nana = json['nana'];
     danny = json['danny'];
     ambrose = json['ambrose'];
+    johnny = json['johnny'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +69,7 @@ class Data {
     data['nana'] = this.nana;
     data['danny'] = this.danny;
     data['ambrose'] = this.ambrose;
+    data['johnny'] = this.johnny;
     return data;
   }
 }
