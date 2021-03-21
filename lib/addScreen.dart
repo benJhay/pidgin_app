@@ -16,24 +16,13 @@ class AddScreenPage extends StatefulWidget {
 
 class _AddScreenPageState extends State<AddScreenPage> {
   bool _internet = false;
-  Map<String, dynamic> comingData = {};
+  
 
-  List staff = [
-    "bismark",
-    "mike",
-    "ben",
-    "kwakye",
-    "maxwell",
-    "kelvin",
-    "nana",
-    "danny",
-    "ambrose",
-    "johnny"
-  ];
-  int currentScore = 0;
+  var staff = [];
   void initState() {
     super.initState();
     checkInternet();
+    getData();
     gitplusStaffBloc.fetchCurrentStaff();
   }
 
@@ -82,7 +71,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[0]}"),
                         Text(
-                          "${model.data.bismark}",
+                          "${staff[1]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -109,7 +98,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                         Text("${staff[1]}"),
                         Center(
                             child: Text(
-                          "${model.data.mike}",
+                          "${staff[2]}",
                           textAlign: TextAlign.center,
                         )),
                         ButtonTheme(
@@ -135,7 +124,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[2]}"),
                         Text(
-                          "${model.data.ben}",
+                          "${staff[3]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -143,7 +132,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                           height: 40,
                           child: ElevatedButton(
                               onPressed: () {
-                                print(comingData);
+                               
                                 addData(staff[2].toString());
                               },
                               child: Icon(Icons.add, color: Colors.white)),
@@ -162,7 +151,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[3]}"),
                         Text(
-                          "${model.data.kwakye}",
+                          "${staff[4]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -188,7 +177,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[4]}"),
                         Text(
-                          "${model.data.maxwell}",
+                          "${staff[5]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -214,7 +203,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[5]}"),
                         Text(
-                          "${model.data.kelvin}",
+                          "${staff[6]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -240,7 +229,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[6]}"),
                         Text(
-                          "${model.data.nana}",
+                          "${staff[7]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -266,7 +255,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[7]}"),
                         Text(
-                          "${model.data.danny}",
+                          "${staff[8]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -292,7 +281,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[8]}"),
                         Text(
-                          "${model.data.ambrose}",
+                          "${staff[9]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -318,7 +307,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                       children: [
                         Text("${staff[9]}"),
                         Text(
-                          "${model.data.johnny}",
+                          "${staff[10]}",
                           textAlign: TextAlign.center,
                         ),
                         ButtonTheme(
@@ -380,7 +369,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
   getData() async {
     Map<String, dynamic> mapToWorkWith = {};
     Map<String, dynamic> newData = new Map<String, dynamic>();
-    comingData = Map.from(mapToWorkWith);
+   
     try {
       final response = await http.get("https://gitplussandbox.com/pidgin/");
       newData = json.decode(response.body);
@@ -389,16 +378,15 @@ class _AddScreenPageState extends State<AddScreenPage> {
         if (key == "data") {
           Map<String, dynamic> us = value;
           us.forEach((key, value) {
-            mapToWorkWith['$key'] = value;
-            comingData['$key'] = value;
+            staff += [key, value];
+           
             // dataTransfer['$key'] = widget.dataTransfer[''];
           });
         }
       });
       if (response.statusCode == 200) {
         // print(response.body);
-        final sorted = SplayTreeMap.from(mapToWorkWith,
-            (key1, key2) => mapToWorkWith[key2].compareTo(mapToWorkWith[key1]));
+
         // print(sorted);
         // print(mapToWorkWith);
 
