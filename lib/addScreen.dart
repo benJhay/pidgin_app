@@ -32,7 +32,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
         appBar: AppBar(
           actions: [
             IconButton(
-                icon: Icon(Icons.refresh), onPressed: () => MyApp.rebirth(context))
+                icon: Icon(Icons.refresh), onPressed: () => gitplusStaffBloc.staff)
           ],
         ),
         body: _internet
