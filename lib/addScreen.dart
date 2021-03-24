@@ -1,10 +1,10 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pidjin_app/checkConnection.dart';
 import 'package:pidjin_app/generateStaffBloc.dart';
+import 'package:pidjin_app/main.dart';
 import 'package:pidjin_app/offlinedata.dart';
 import 'package:pidjin_app/staffModel.dart';
 import 'package:http/http.dart' as http;
@@ -16,9 +16,9 @@ class AddScreenPage extends StatefulWidget {
 
 class _AddScreenPageState extends State<AddScreenPage> {
   bool _internet = false;
-  
 
   var staff = [];
+  var scores = [];
   void initState() {
     super.initState();
     checkInternet();
@@ -29,6 +29,12 @@ class _AddScreenPageState extends State<AddScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                icon: Icon(Icons.refresh), onPressed: () => MyApp.rebirth(context))
+          ],
+        ),
         body: _internet
             ? StreamBuilder(
                 stream: gitplusStaffBloc.staff,
@@ -37,7 +43,7 @@ class _AddScreenPageState extends State<AddScreenPage> {
                     : StaffModel.fromJson(staffOffline),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return _mainContent(snapshot.data);
+                    return Center(child: _mainContent(snapshot.data));
                   }
                   return Center(child: CupertinoActivityIndicator(radius: 20));
                 })
@@ -65,311 +71,331 @@ class _AddScreenPageState extends State<AddScreenPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 15),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  for (int data = 0; data < staff.length; data++)
+                    Row(
                       children: [
-                        Text("${staff[0]}"),
-                        Text(
-                          "${staff[1]}",
-                          textAlign: TextAlign.center,
-                        ),
+                        Text("${staff[data]}"),
+                        Text("${scores[data]}"),
                         ButtonTheme(
                           minWidth: 40,
                           height: 40,
                           child: ElevatedButton(
                               onPressed: () {
-                                addData(staff[0].toString());
+                                print(staff[data]);
+                                addData(staff[data].toString());
                               },
                               child: Icon(Icons.add, color: Colors.white)),
                         )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[1]}"),
-                        Center(
-                            child: Text(
-                          "${staff[2]}",
-                          textAlign: TextAlign.center,
-                        )),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[1].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[2]}"),
-                        Text(
-                          "${staff[3]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                               
-                                addData(staff[2].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[3]}"),
-                        Text(
-                          "${staff[4]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[3].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[4]}"),
-                        Text(
-                          "${staff[5]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[4].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[5]}"),
-                        Text(
-                          "${staff[6]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[5].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[6]}"),
-                        Text(
-                          "${staff[7]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[6].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[7]}"),
-                        Text(
-                          "${staff[8]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[7].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[8]}"),
-                        Text(
-                          "${staff[9]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[8].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${staff[9]}"),
-                        Text(
-                          "${staff[10]}",
-                          textAlign: TextAlign.center,
-                        ),
-                        ButtonTheme(
-                          minWidth: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addData(staff[9].toString());
-                              },
-                              child: Icon(Icons.add, color: Colors.white)),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Center(
-                      child: ButtonTheme(
-                    minWidth: 40,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        refreshFunction();
-                      },
-                      child: Row(children: [
-                        Text("Refresh"),
-                        Icon(Icons.refresh, color: Colors.white)
-                      ]),
+                      ],
                     ),
-                  ))
+
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[0]}"),
+                  //       Text(
+                  //         "${staff[1]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[0].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[2]}"),
+                  //       Center(
+                  //           child: Text(
+                  //         "${staff[3]}",
+                  //         textAlign: TextAlign.center,
+                  //       )),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[2].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[4]}"),
+                  //       Text(
+                  //         "${staff[5]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[4].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[6]}"),
+                  //       Text(
+                  //         "${staff[7]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[6].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[8]}"),
+                  //       Text(
+                  //         "${staff[9]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[8].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[10]}"),
+                  //       Text(
+                  //         "${staff[11]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[10].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[12]}"),
+                  //       Text(
+                  //         "${staff[13]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[12].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[14]}"),
+                  //       Text(
+                  //         "${staff[15]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[14].toString());
+                  //               refreshFunction();
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[16]}"),
+                  //       Text(
+                  //         "${staff[17]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[16].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("${staff[18]}"),
+                  //       Text(
+                  //         "${staff[19]}",
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //       ButtonTheme(
+                  //         minWidth: 40,
+                  //         height: 40,
+                  //         child: ElevatedButton(
+                  //             onPressed: () {
+                  //               addData(staff[18].toString());
+                  //             },
+                  //             child: Icon(Icons.add, color: Colors.white)),
+                  //       )
+                  //     ]),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Center(
+                  //     child: ButtonTheme(
+                  //   minWidth: 40,
+                  //   height: 40,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       refreshFunction();
+                  //     },
+                  //     child: Row(children: [
+                  //       Text("Refresh"),
+                  //       Icon(Icons.refresh, color: Colors.white)
+                  //     ]),
+                  //   ),
+                  // ))
                 ])),
       ),
     );
+  }
+  Future update(){
+    
   }
 
   Future addData(
     name,
   ) async {
     String url = "https://gitplussandbox.com/pidgin/";
-    getData();
-    // print(comingData);
+
     var newBody = {'name': name};
-    // print("$name");
+
     var sendResponse = await http.post(url, body: newBody);
     if (sendResponse.statusCode == 200) {
-      // final dataRes = json.decode(sendResponse.body);
-      gitplusStaffBloc.fetchCurrentStaff();
+      print(json.decode(sendResponse.body));
+      getData();
       return;
     }
   }
 
-  refreshFunction() {
-    return gitplusStaffBloc.fetchCurrentStaff();
+  refreshFunction() async {
+    gitplusStaffBloc.dispose();
+    return gitplusStaffBloc.staff;
   }
 
   getData() async {
-    Map<String, dynamic> mapToWorkWith = {};
     Map<String, dynamic> newData = new Map<String, dynamic>();
-   
+
     try {
       final response = await http.get("https://gitplussandbox.com/pidgin/");
       newData = json.decode(response.body);
@@ -378,22 +404,16 @@ class _AddScreenPageState extends State<AddScreenPage> {
         if (key == "data") {
           Map<String, dynamic> us = value;
           us.forEach((key, value) {
-            staff += [key, value];
-           
-            // dataTransfer['$key'] = widget.dataTransfer[''];
+            staff += [key];
+            scores += [value];
           });
         }
       });
       if (response.statusCode == 200) {
-        // print(response.body);
-
-        // print(sorted);
-        // print(mapToWorkWith);
+        print(response.body);
 
         var newResponse = StaffModel.fromJson(json.decode(response.body));
-        // print(newResponse);
-        // print(newResponse);
-        // print(comingData);
+
         return newResponse;
       } else {
         throw Exception('Failed to load Staff');
